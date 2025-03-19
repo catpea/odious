@@ -130,6 +130,8 @@ export default class Synchronizable {
     const isDuplicate = (remoteRevision === this.#revision) && (remoteRevisionId === this.#revisionUuid);
     const isConflict = remoteRevision === this.#revision && !isDuplicate;
 
+    console.log({isUpdate, isDuplicate, isConflict});
+
     if (isUpdate) {
       // Simple case: remote revision is newer
       const oldSerializedValue = this.#serializedValue;
@@ -150,6 +152,7 @@ export default class Synchronizable {
       // Conflict case: same revision, different UUIDs
       // Winner determined by comparing UUIDs alphanumerically
       const isWinner = remoteRevisionId > this.#revisionUuid;
+      console.log({isWinner}, remoteRevisionId, this.#revisionUuid)
 
       if (isWinner) {
         // Take on remote revision and revision id
@@ -160,7 +163,7 @@ export default class Synchronizable {
         const newSerializedValue = JSON.stringify(newUnserializedRemoteValue);
         const oldSerializedValue = this.#serializedValue;
         const isChanged = oldSerializedValue !== newSerializedValue;
-
+        console.log({isChanged}, oldSerializedValue, newSerializedValue, newUnserializedRemoteValue)
         this.#unserializedValue = newUnserializedRemoteValue;
         this.#serializedValue = newSerializedValue;
 

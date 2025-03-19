@@ -3,14 +3,14 @@
  * @param {string} name - Test name/description
  * @param {Function} testFn - Test function that receives test object
  */
-export default function test(name, testFn) {
+export default async function test(name, testFn) {
   const t = new Test(name);
 
   console.group(`🧪 ${name}`);
 
   try {
     // Execute the test with our test object
-    testFn(t);
+    await testFn(t);
 
     // Check if all planned assertions were run
     if (t._plannedAssertions !== null && t._assertionCount !== t._plannedAssertions) {
@@ -62,6 +62,7 @@ class Test {
    */
   assert(condition, message) {
     this._assertionCount++;
+    // console.log('assert: this._assertionCount', this._assertionCount)
 
     if (this._ended) {
       console.warn('⚠️ Assertion after end() was called');

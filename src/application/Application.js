@@ -1,61 +1,41 @@
+import Settings from "../modules/settings/Settings.js";
+
 import Events from "./Events.js";
 import Library from "./Library.js";
 import Stack from "./Stack.js";
 
 export default class Application {
-  events = new Events();
-  library = new Library();
+  id = 'application';
+  storageApi = 'v1'; // when incremented all data will be abandoned to previous version, and program will start blank
 
-  stack = new Stack();
+  defaultSettings = {
+    author: {
+      name: 'user',
+      email: 'user@localhost',
+    }
+  }
 
+  settings;
+  events;
+  library;
+  stack;
+
+  #started = false;
+  get started(){return this.#started;}
+  async start(){
+    if (this.#started) throw new Error('already started');
+    await this.settings.start(); // await synchronization with storage/database
+    this.#started = true;
+  }
+  async stop(){
+    await this.settings.stop();
+  }
   constructor() {
 
-    // this does not override values, if they are present
-    this.synchronizables.initializeDefaults({
-
-      settings: { // <-- categories are not signals, just plain objects
-        name: "untitled", // <-- category entries become signals
-        title: "Untitled",
-        note: "",
-        style: null,
-        list: [1,2,3] // <-- the entire array is contined in one signal, only category values are wrapped in signals
-      },
-
-      selection: {
-        active: false,
-        selected: false,
-      },
-
-      coordinates: {
-        zindex: 0,
-        left: 0,
-        top: 0,
-        width: null,
-        height: null,
-      },
-
-      ports: {
-        in: { side: "in", icon: "activity" },
-        out: { side: "out", icon: "activity" },
-      },
-
-      fields: {
-
-        counter: {
-          label: "Counter",
-          type: "Number",
-          data: 0
-        },
-
-        milliseconds: {
-          label: "Milliseconds",
-          type: "Number",
-          data: 10_000,
-          step: 100,
-          min: 300,
-        },
-      },
-    });
+    settings = new Settings(this.storageApi, 'application.settings', this.defaultSettings);
+    events = new Events();
+    library = new Library();
+    stack = new Stack();
 
   }
 }
