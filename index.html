@@ -1,188 +1,36 @@
 <!doctype html>
 <html lang="en" data-bs-theme="dark">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Signal and Web Component Enhanced Web Apps</title>
-    <script type="importmap">
-    {
-      "imports": {
-        "application": "src/application/Application.js",
-      }
-    }
-    </script>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💎</text></svg>">
-    <script src="static/js/bootstrap.bundle.min.js"></script>
-    <script type="module" src="browser.js"></script>
-    <style>
-    .app { opacity: 0; }
-    .utilities { opacity: 0; }
-
-    body { background-color: #212529; }
-    </style>
-  </head>
-  <body>
-
-    <div class="utilities">
-
-        <div class="toast-container position-fixed top-0 end-0 p-3">
-            <div id="liveToast1" class="toast text-bg-warning hide" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="30000">
-                <div class="toast-header">
-                <strong class="me-auto">How To Use</strong>
-                <small>Hello!</small>
-                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                </div>
-                <div class="toast-body">
-                    Right-click on the background to open the toolbox!
-                </div>
-            </div>
-
-            <div id="liveToast2" class="toast text-bg-info hide" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="12000">
-                <div class="toast-header">
-                <strong class="me-auto">Note</strong>
-                <small>Hello!</small>
-                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                </div>
-                <div class="toast-body">
-                    Fixed right click trouble, pan/zoom is now restored when a scene changes.
-                </div>
-            </div>
-        </div>
-        <script>
-        const toastLiveExample1 = document.getElementById('liveToast1')
-        const toastLiveExample2 = document.getElementById('liveToast2')
-        const toastBootstrap1 = bootstrap.Toast.getOrCreateInstance(toastLiveExample1)
-        const toastBootstrap2 = bootstrap.Toast.getOrCreateInstance(toastLiveExample2)
-        toastBootstrap1.show()
-        toastBootstrap2.show()
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>Odious &middot; Signal and Web Component Enhanced Web Apps</title>
+        <script type="importmap">
+            {
+              "imports": {
+                "application": "src/application/Application.js",
+                "synchronizable": "./src/modules/synchronizable/Synchronizable.js"
+              }
+            }
         </script>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>😈</text></svg>" />
+        <script src="static/js/bootstrap.bundle.min.js"></script>
+        <script type="module" src="browser.js"></script>
+        <style>
+            .app {
+                opacity: 0;
+            }
+            .utilities {
+                opacity: 0;
+            }
 
-    </div>
+            body {
+                background-color: #212529;
+            }
+        </style>
+    </head>
+    <body>
 
+        <main id="app1"></main>
 
-
-    <div class="app"></div>
-
-    <!--
-    <div class="container-fluid h-100">
-        <div class="row d-none">
-            <div class="col">
-
-
-                <nav class="navbar navbar-expand-lg bg-body-tertiary">
-                  <div class="container-fluid">
-                    <a class="navbar-brand" href="#">Testing Advanced UI...</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                      <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                          <a class="nav-link active" aria-current="page" href="#">Home</a>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link" href="#">Link</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                          <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            Dropdown
-                          </a>
-                          <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">Action</a></li>
-                            <li><a class="dropdown-item" href="#">Another action</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#">Something else here</a></li>
-                          </ul>
-                        </li>
-                        <li class="nav-item">
-                          <a class="nav-link disabled" aria-disabled="true">Disabled</a>
-                        </li>
-                      </ul>
-                      <form class="d-flex" role="search">
-                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                        <button class="btn btn-outline-success" type="submit">Search</button>
-                      </form>
-                    </div>
-                  </div>
-                </nav>
-
-
-
-            </div>
-        </div>
-        <div class="row">
-            <aside class="col-2 d-none">
-
-                <ul class="nav nav-underline mb-3">
-                  <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="#">Active</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="#">Link</a>
-                  </li>
-
-                </ul>
-
-                <ul class="list-group  mb-3">
-                  <li class="list-group-item">An item</li>
-                  <li class="list-group-item">A second item</li>
-                  <li class="list-group-item">A third item</li>
-                  <li class="list-group-item">A fourth item</li>
-                  <li class="list-group-item">And a fifth one</li>
-                </ul>
-
-
-
-                <div class="accordion" id="accordionExample">
-                  <div class="accordion-item">
-                    <h2 class="accordion-header">
-                      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                        Accordion Item #1
-                      </button>
-                    </h2>
-                    <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-                      <div class="accordion-body">
-                        <strong>This is the first item's accordion body.</strong>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="accordion-item">
-                    <h2 class="accordion-header">
-                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                        Accordion Item #2
-                      </button>
-                    </h2>
-                    <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                      <div class="accordion-body">
-                        <strong>This is the second item's accordion body.</strong>  overflow.
-                      </div>
-                    </div>
-                  </div>
-                  <div class="accordion-item">
-                    <h2 class="accordion-header">
-                      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                        Accordion Item #3
-                      </button>
-                    </h2>
-                    <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                      <div class="accordion-body">
-                        <strong>This is the third item's accordion body.</strong>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-
-
-            </aside>
-            <main class="col-12 app position-relative bg-dark p-0 m-0">
-                <div class="app"></div>
-            </main>
-        </div>
-    </div> -->
-
-  </body>
+    </body>
 </html>

@@ -7,7 +7,7 @@ export default class Persistence {
   adapter;
 
   constructor(){
-    console.log('env', this.environment());
+    console.info('Persistence Envirnonment: ', this.environment());
 
     switch (this.environment()) {
       case 'Node.js':
@@ -41,10 +41,12 @@ export default class Persistence {
   }
 
   get(...a){
+    console.log('Persistence Get: ', ...a)
     return this.adapter.get(...a);
   }
 
   set(...a){
+    console.log('Persistence Set: ', ...a)
     return this.adapter.set(...a);
   }
 
@@ -52,19 +54,16 @@ export default class Persistence {
     return this.adapter.remove(...a);
   }
 
-  environment(){
-      const isNode = (typeof process !== 'undefined' && process.versions && process.versions.node);
-      const isWebExtension = (typeof browser !== 'undefined' && browser.runtime && browser.runtime.id) || (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.id);
-      const isBrowser = (typeof window !== 'undefined' && typeof window.document !== 'undefined');
+  environments = new Map([
+    ['Node.js', ()=>(typeof process !== 'undefined' && process.versions && process.versions.node)],
+    ['Web Browser', ()=>(typeof window !== 'undefined' && typeof window.document !== 'undefined')],
+    ['Web Extension', ()=>(typeof browser !== 'undefined' && browser.runtime && browser.runtime.id) || (typeof chrome !== 'undefined' && chrome.runtime && chrome.runtime.id)],
+  ]);
 
-      if (isNode) {
-          return 'Node.js';
-      } else if (isWebExtension) {
-          return 'Web Extension';
-      } else if (isBrowser) {
-          return 'Web Browser';
-      } else {
-          return 'Unknown';
-      }
+  environment(){
+    for (const [name, check] of this.environments) {
+      if(check()) return name;
+    }
   }
+
 }

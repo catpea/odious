@@ -1,9 +1,12 @@
+import Synchronizable from 'synchronizable';
+
 export default class WebBrowser {
 
   get(key){
     return localStorage.getItem(key);
   }
   set(o){
+    // console.log('WebBrowser.set', o)
     for (const [key, value] of Object.entries(o)){
       localStorage.setItem(key, value);
     }
@@ -19,38 +22,49 @@ export default class WebBrowser {
   }
 
   #started = false;
-  #stopWatching;
+  #stopWatchingLocalStorage;
   get started(){return this.#started;}
-  async start(prefix, data){
+  async start(prefix, memory){
     if (this.#started) throw new Error('already started');
-    await this.seed(prefix, data);
-    this.#stopWatching = await this.watch(prefix, data);
+    await this.seed(prefix, memory);
+    this.#stopWatchingLocalStorage = await this.watch(prefix, memory);
     this.#started = true;
   }
 
-  async seed(prefix, data){
-    for( const [key, value] of Object.entries(localStorage.getItem()) ){
+  async seed(prefix, memory){
+    // console.log('Object.entries(localStorage)', Object.entries(localStorage))
+    for( const [key, value] of Object.entries(localStorage) ){
       if(key.startsWith(prefix)){
-        const {revision, revisionId, data} = this.decode(value);
-        data.signal(key).remote(revision, revisionId, data);
+        const {revision, revisionId, content} = this.decode(value);
+        if(!memory.has(key)) memory.add(key);
+        memory.get(key).remote(revision, revisionId, content);
       }
     }
   }
 
-  async watch(prefix, data){
+  async watch(prefix, memory){
+    console.log('WATCHING!');
+
+
     const listener = event => {
-      const correctKey = event.key.startsWith(prefix);
+      console.log('HEARD CHANGE!!!!!!!!!!!...', event )
+      if(!event.key) return;
+      const key = event.key;
+
+      const correctKey = key.startsWith(prefix);
       if(!correctKey) return;
-      const changeOccured = event.newValue !== event.oldValue;
-      if(!changeOccured) return;
-      const {revision, revisionId, data} = this.decode(event.newValue);
-      data.signal(key).remote(revision, revisionId, data);
+      const changeOccurred = event.newValue !== event.oldValue;
+      if(!changeOccurred) return;
+      const {revision, revisionId, content} = this.decode(event.newValue);
+      if(!memory.has(key)) memory.add(key);
+      memory.get(key).remote(revision, revisionId, content);
     };
     window.addEventListener('storage', listener);
-    return ()=>window.removeEventListener('storage', listener);
+    // return ()=>window.removeEventListener('storage', listener);
   }
   async stop(){
-    this.#stopWatching();
+    console.log('#stopWatchingLocalStorage!');
+    this.#stopWatchingLocalStorage();
   }
 
 

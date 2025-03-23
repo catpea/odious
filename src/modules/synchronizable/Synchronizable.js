@@ -141,6 +141,7 @@ export default class Synchronizable {
       this.#revision = remoteRevision;
       this.#revisionUuid = remoteRevisionId;
 
+      console.log({isChanged}, oldSerializedValue, newSerializedValue, oldSerializedValue !== newSerializedValue)
       if (isChanged) {
         // Only notify if actual value has changed
         this.#unserializedValue = newUnserializedRemoteValue;
@@ -163,6 +164,7 @@ export default class Synchronizable {
         const newSerializedValue = JSON.stringify(newUnserializedRemoteValue);
         const oldSerializedValue = this.#serializedValue;
         const isChanged = oldSerializedValue !== newSerializedValue;
+        console.log({isChanged}, remoteRevision, remoteRevisionId, newUnserializedRemoteValue)
         console.log({isChanged}, oldSerializedValue, newSerializedValue, newUnserializedRemoteValue)
         this.#unserializedValue = newUnserializedRemoteValue;
         this.#serializedValue = newSerializedValue;

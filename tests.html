@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Mocha Tests</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="./tests/node_modules/mocha/mocha.css" />
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>😈</text></svg>" />
+    <script type="importmap">
+      {
+        "imports": {
+            "application": "./src/application/Application.js",
+            "synchronizable": "./src/modules/synchronizable/Synchronizable.js"
+        }
+      }
+    </script>
+  </head>
+  <body>
+    <div id="mocha"></div>
+
+    <script src="./tests/node_modules/chai/chai.js"></script>
+    <script src="./tests/node_modules/mocha/mocha.js"></script>
+
+    <script type="module" class="mocha-init">
+      mocha.setup('bdd');
+      mocha.checkLeaks();
+    </script>
+
+    <script type="module" src="./tests/test.application.js"></script>
+
+    <script type="module" class="mocha-exec">
+      mocha.run();
+    </script>
+
+  </body>
+</html>

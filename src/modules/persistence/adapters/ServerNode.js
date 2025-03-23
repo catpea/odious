@@ -1,5 +1,5 @@
 const mapStorage = new Map();
-import Synchronizable from '../../synchronizable/Synchronizable.js';
+import Synchronizable from 'synchronizable';
 
 export default class ServerNode {
 
@@ -32,10 +32,8 @@ export default class ServerNode {
   }
 
   async seed(prefix, data){
-    const defaults = {
-      'v1-test:application.settings:author:name:data': JSON.stringify({revision:2, revisionId:'x-defaults-test', content:'Alice Smith'})
-    };
-    for( const [key, value] of Object.entries(defaults) ){
+    const localStorage = { 'v1-test:application.settings:author:mxyzptlk:data': JSON.stringify({revision:2, revisionId:'vyndktvx', content:'Mr. Mxyzptlk'}) };
+    for( const [key, value] of Object.entries(localStorage) ){
       if(key.startsWith(prefix)){
         const {revision, revisionId, content} = this.decode(value);
         console.log('XXXXXXXXX', key, {revision, revisionId, content})

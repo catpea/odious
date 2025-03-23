@@ -69,6 +69,10 @@ export default class Movable {
       deltaX = deltaX / scale;
       deltaY = deltaY / scale;
 
+      // TODO: we now work on multiselction scale,
+      // this means the deltaX and deltaY must be applied to all windows in a set
+      // some sets are Trays that carry components, otehr sets are user selected nodes.
+
       // RARE: if there is no style set, initialize values
       if (this.cardElement.style.left === "") this.cardElement.style.left = this.cardElement.offsetLeft + "px";
       if (this.cardElement.style.top === "") this.cardElement.style.top = this.cardElement.offsetTop + "px";
