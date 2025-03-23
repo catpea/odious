@@ -1,6 +1,6 @@
-import WebExtension from './adapters/WebExtension.js';
+// import WebExtension from './adapters/WebExtension.js';
 import WebBrowser from './adapters/WebBrowser.js';
-import ServerNode from './adapters/ServerNode.js';
+// import ServerNode from './adapters/ServerNode.js';
 
 export default class Persistence {
 
@@ -11,10 +11,10 @@ export default class Persistence {
 
     switch (this.environment()) {
       case 'Node.js':
-        this.adapter = new ServerNode();
+        // this.adapter = new ServerNode();
         break;
       case 'Web Extension':
-        this.adapter = new WebExtension('local');
+        // this.adapter = new WebExtension('local');
         break;
       case 'Web Browser':
         this.adapter = new WebBrowser();

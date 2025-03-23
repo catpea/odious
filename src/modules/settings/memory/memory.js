@@ -1,5 +1,5 @@
-import Persistence from '../persistence/Persistence.js';
-import Synchronizable from '../synchronizable/Synchronizable.js';
+import Persistence from './persistence/Persistence.js';
+import Synchronizable from './synchronizable/Synchronizable.js';
 
 class Memory {
   data;

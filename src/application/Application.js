@@ -16,6 +16,10 @@ export default class Application {
     }
   }
 
+  classes = {
+    Settings,
+  };
+
   settings;
   events;
   library;
@@ -24,9 +28,10 @@ export default class Application {
   constructor() {
 
     this.settings = new Settings(this.storagePrefix, 'application.settings', this.defaultSettings);
-    this.events = new Events(); // system events suchh as adding/removing a node in a scene
-    this.library = new Library(); // where components are registered
-    this.stack = new Stack(); // this is the scene stack, the program
+
+    this.events = new Events(this); // system events suchh as adding/removing a node in a scene
+    this.library = new Library(this); // where components are registered
+    this.stack = new Stack(this); // this is the scene stack, the program
 
   }
 
@@ -41,6 +46,7 @@ export default class Application {
     if (this.#started) throw new Error('already started');
 
     await this.settings.start(); // await synchronization with storage/database
+    await this.library.start(); // await synchronization with storage/database
 
     this.#started = true;
   }

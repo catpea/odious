@@ -7,10 +7,12 @@ describe("Application", () => {
   let application;
 
   before(async () => {
+
+    // NOTE: some initial test storage data;
     localStorage.clear();
-    application = new Application();
-    // some test storage data;
     localStorage.setItem('v1:application.settings:author:serial:data', JSON.stringify({revision:4, revisionId:'base36-defaults-test', content:'mxyzptlk-vyndktvx'}))
+
+    application = new Application();
     await application.start()
   });
 
@@ -30,7 +32,7 @@ describe("Application", () => {
 
   });
 
-  describe(".settings...", async () => {
+  describe(".settings...", () => {
 
     it("should report correct information from raw application defaults", () => {
       chai.expect(application.settings.get('author', 'name')).to.equal('user');
@@ -39,10 +41,9 @@ describe("Application", () => {
 
     it("should increment revision when value is updated", () => {
       chai.expect(application.settings.signal('author', 'name').revision).to.equal(2);
-      application.settings.set('author', 'name', 'user2xx');
-      chai.expect(application.settings.get('author', 'name')).to.equal('user2xx');
+      application.settings.set('author', 'name', 'zerocool');
+      chai.expect(application.settings.get('author', 'name')).to.equal('zerocool');
       chai.expect(application.settings.signal('author', 'name').revision).to.equal(3);
-
     });
 
     it("should use value from localStorage", () => {
@@ -51,25 +52,27 @@ describe("Application", () => {
     });
 
     it("should synchronize updates", () => {
-      application.settings.set('author', 'name', 'user3gg');
-      application.settings.set('author', 'name', 'user3hh');
+      application.settings.set('author', 'name', 'n00b');
+      application.settings.set('author', 'name', 'hunter2');
       chai.expect(application.settings.signal('author', 'name').revision).to.equal(5);
-      chai.expect(application.settings.get('author', 'name')).to.equal('user3hh');
-    });
-
-    it("Bump!", () => {
-      application.settings.signal('author', 'name').subscribe(v=>console.log('Author name updated to '+v));
-
-      setInterval(()=>{
-      application.settings.set('author', 'name', 'user' + (new Date()));
-
-      },1_000)
-
-      chai.expect(1).to.equal(1);
+      chai.expect(application.settings.get('author', 'name')).to.equal('hunter2');
     });
 
   });
 
+  describe(".library...", () => {
 
+    it("should fetch and register a standard library module", async () => {
+      await application.library.load('/library/standard/Basic.js');
+      chai.expect([...application.library.elements.cache.keys()].length ).to.equal(1);
+      chai.expect(application.library.elements.cache.get('@standard/basic').id ).to.equal('@standard/basic');
+      chai.expect([...application.library.elements.cache.keys()] ).to.deep.equal([ '@standard/basic' ]);
+    });
+
+    it("should contain Beacon class", async () => {
+      chai.expect(application.library.elements.cache.get('@standard/basic').Beacon.name ).to.equal('Beacon');
+    });
+
+  });
 
 });

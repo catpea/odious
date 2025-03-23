@@ -1,11 +1,15 @@
-import memory from '../memory/memory.js';
+import memory from './memory/memory.js';
+import Elements from './Elements.js';
 
 export default class Settings {
+
+  static Elements = Elements;
 
   #storageApi;
   #objectId;
   #defaultValues;
-  constructor(storageApi, objectId, defaultValues){
+
+  constructor(storageApi, objectId, defaultValues = {}){
     this.#storageApi = storageApi;
     this.#objectId = objectId;
     this.#defaultValues = defaultValues;
@@ -15,7 +19,7 @@ export default class Settings {
   get started(){return this.#started;}
   async start(defaults){
 
-    if (this.#started) throw new Error('already started');
+    // if (this.#started) throw new Error('already started');
     if(!memory.started) await memory.start(this.#storageApi);
 
     for( const [categoryId, columns] of Object.entries(this.#defaultValues) ){

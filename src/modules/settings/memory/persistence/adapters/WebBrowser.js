@@ -1,5 +1,3 @@
-import Synchronizable from 'synchronizable';
-
 export default class WebBrowser {
 
   get(key){
@@ -75,5 +73,10 @@ export default class WebBrowser {
   encode(obj){
     return JSON.stringify(obj);
   }
-
+  listenTo(thing, event, listener){
+    if (!thing || !event || !listener) { throw new Error('All arguments (thing, event, listener) must be provided'); }
+    const boundListener = listener.bind(this);
+    thing.addEventListener(event, boundListener);
+    return ()=>thing.removeEventListener(event, boundListener);
+  }
 }
