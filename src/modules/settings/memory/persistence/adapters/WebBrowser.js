@@ -58,7 +58,7 @@ export default class WebBrowser {
       memory.get(key).remote(revision, revisionId, content);
     };
     window.addEventListener('storage', listener);
-    // return ()=>window.removeEventListener('storage', listener);
+    return ()=>window.removeEventListener('storage', listener);
   }
   async stop(){
     console.log('#stopWatchingLocalStorage!');

@@ -9,15 +9,68 @@ export default class Elements {
   }
 
   [Symbol.iterator]() {
-    const list = this.settings.get(this.categoryId, this.columnId).split(/\s+/).filter(o=>o).map(id=>this.cache.get(id));
+    const list = this.values();
     return list[Symbol.iterator]();
   }
 
-  splice(...a){
-    const list = this.settings.get(this.categoryId, this.columnId).split(/\s+/);
-    list.splice(...a);
-    this.settings.set(this.categoryId, this.columnId, list.join(' '))
+  keys(){
+    const keys = this.settings.get(this.categoryId, this.columnId).split(/\s+/).filter(o=>o);
+    return keys;
   }
+
+  values(){
+    const keys = this.keys();
+    const values = keys.map(id=>this.cache.get(id));
+    return values;
+  }
+
+  entries(){
+    const keys = this.keys();
+    const entries = keys.map(id=>[id, this.cache.get(id)])
+    return entries;
+  }
+
+  indexOf(...a){
+    const keys = this.keys();
+    return keys.indexOf(...a);
+  }
+
+  splice(...a){
+    const keys = this.keys();
+    keys.splice(...a);
+    const unique = [...new Set(keys)];
+    this.settings.set(this.categoryId, this.columnId, unique.join(' '));
+  }
+
+  delete(id){
+    this.cache.delete(id);
+    const keys = this.keys();
+    const unique = [...new Set(keys)];
+    const position = unique.indexOf(id);
+    unique.splice(position, 1);
+    this.settings.set(this.categoryId, this.columnId, unique.join(' '));
+  }
+
+  add(object){
+    const id = object.id || object.constructor.id;
+    if(!id) throw new TypeError('Object must contain an id property.')
+    this.cache.set(id, object);
+
+    const keys = this.keys();
+    const unique = [...new Set(keys)];
+    unique.splice(unique.length, 0, id);
+    this.settings.set(this.categoryId, this.columnId, unique.join(' '));
+
+  }
+
+  has(id){
+    return this.indexOf(id) !== -1;
+  }
+
+  get(id){
+    return this.has(id)?this.cache.get(id):undefined;
+  }
+
 
   #started = false;
 

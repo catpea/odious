@@ -60,17 +60,14 @@ describe("Application", () => {
 
   });
 
-  describe(".library...", () => {
+  describe(".stop()", async () => {
 
-    it("should fetch and register a standard library module", async () => {
-      await application.library.load('/library/standard/Basic.js');
-      chai.expect([...application.library.elements.cache.keys()].length ).to.equal(1);
-      chai.expect(application.library.elements.cache.get('@standard/basic').id ).to.equal('@standard/basic');
-      chai.expect([...application.library.elements.cache.keys()] ).to.deep.equal([ '@standard/basic' ]);
+    it("should report started as false", async () => {
+      await application.stop();
+      chai.expect(application.started).to.be.false;
     });
-
-    it("should contain Beacon class", async () => {
-      chai.expect(application.library.elements.cache.get('@standard/basic').Beacon.name ).to.equal('Beacon');
+    it("TODO: should have no memory leaks", async () => {
+      // chai.expect(true).to.be.false;
     });
 
   });

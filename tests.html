@@ -9,8 +9,8 @@
     <script type="importmap">
       {
         "imports": {
-            "application": "./src/application/Application.js",
-            "synchronizable": "./src/modules/synchronizable/Synchronizable.js"
+          "application": "./src/application/Application.js",
+          "synchronizable": "./src/modules/synchronizable/Synchronizable.js"
         }
       }
     </script>
@@ -27,6 +27,8 @@
     </script>
 
     <script type="module" src="./tests/test.application.js"></script>
+    <script type="module" src="./tests/test.library.js"></script>
+    <script type="module" src="./tests/test.stack.js"></script>
 
     <script type="module" class="mocha-exec">
       mocha.run();

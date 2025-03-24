@@ -45,14 +45,23 @@ export default class Application {
 
     if (this.#started) throw new Error('already started');
 
-    await this.settings.start(); // await synchronization with storage/database
-    await this.library.start(); // await synchronization with storage/database
+    await this.settings.start();
+    await this.library.start();
+    await this.stack.start();
 
     this.#started = true;
+
   }
 
   async stop(){
+
     await this.settings.stop();
+    await this.library.stop();
+    await this.stack.stop();
+
+    this.#started = false;
+
+
   }
 
 }
