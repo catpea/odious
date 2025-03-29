@@ -82,6 +82,7 @@ class Scene {
     const Class = this.application.library.get(classId);
     if(!Class) throw new Error(`Component classId ${classId} not found.`)
     const component = new Class(this);
+    component.id = classId + '-' + Math.random().toString(36).substring(2, 10);
     this.elements.add(component);
     await component.start()
   }

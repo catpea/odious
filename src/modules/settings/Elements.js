@@ -13,6 +13,9 @@ export default class Elements {
     return list[Symbol.iterator]();
   }
 
+  size(){
+    return this.keys().length;
+  }
   keys(){
     const keys = this.settings.get(this.categoryId, this.columnId).split(/\s+/).filter(o=>o);
     return keys;
@@ -56,11 +59,9 @@ export default class Elements {
     if(!id) throw new TypeError('Object must contain an id property.')
     this.cache.set(id, object);
 
-    const keys = this.keys();
+    const keys = this.keys().concat(id);
     const unique = [...new Set(keys)];
-    unique.splice(unique.length, 0, id);
     this.settings.set(this.categoryId, this.columnId, unique.join(' '));
-
   }
 
   has(id){
