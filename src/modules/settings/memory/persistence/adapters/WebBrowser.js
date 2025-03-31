@@ -61,7 +61,7 @@ export default class WebBrowser {
     return ()=>window.removeEventListener('storage', listener);
   }
   async stop(){
-    console.log('#stopWatchingLocalStorage!');
+    // throw new Error('#stopWatchingLocalStorage!');
     this.#stopWatchingLocalStorage();
   }
 

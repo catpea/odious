@@ -130,7 +130,7 @@ export default class Synchronizable {
     const isDuplicate = (remoteRevision === this.#revision) && (remoteRevisionId === this.#revisionUuid);
     const isConflict = remoteRevision === this.#revision && !isDuplicate;
 
-    console.log({isUpdate, isDuplicate, isConflict});
+    // console.log({isUpdate, isDuplicate, isConflict});
 
     if (isUpdate) {
       // Simple case: remote revision is newer
@@ -141,7 +141,7 @@ export default class Synchronizable {
       this.#revision = remoteRevision;
       this.#revisionUuid = remoteRevisionId;
 
-      console.log({isChanged}, oldSerializedValue, newSerializedValue, oldSerializedValue !== newSerializedValue)
+      // console.log({isChanged}, oldSerializedValue, newSerializedValue, oldSerializedValue !== newSerializedValue)
       if (isChanged) {
         // Only notify if actual value has changed
         this.#unserializedValue = newUnserializedRemoteValue;
@@ -153,7 +153,7 @@ export default class Synchronizable {
       // Conflict case: same revision, different UUIDs
       // Winner determined by comparing UUIDs alphanumerically
       const isWinner = remoteRevisionId > this.#revisionUuid;
-      console.log({isWinner}, remoteRevisionId, this.#revisionUuid)
+      // console.log({isWinner}, remoteRevisionId, this.#revisionUuid)
 
       if (isWinner) {
         // Take on remote revision and revision id
@@ -164,8 +164,8 @@ export default class Synchronizable {
         const newSerializedValue = JSON.stringify(newUnserializedRemoteValue);
         const oldSerializedValue = this.#serializedValue;
         const isChanged = oldSerializedValue !== newSerializedValue;
-        console.log({isChanged}, remoteRevision, remoteRevisionId, newUnserializedRemoteValue)
-        console.log({isChanged}, oldSerializedValue, newSerializedValue, newUnserializedRemoteValue)
+        // console.log({isChanged}, remoteRevision, remoteRevisionId, newUnserializedRemoteValue)
+        // console.log({isChanged}, oldSerializedValue, newSerializedValue, newUnserializedRemoteValue)
         this.#unserializedValue = newUnserializedRemoteValue;
         this.#serializedValue = newSerializedValue;
 

@@ -37,7 +37,7 @@ export default class Library {
     const {default:Class} = await import(url);
     const instance = new Class(this);
     for ( const item of instance ){
-      this.elements.add(item);
+      this.elements.add(item, item.defaults.main.type);
     }
   }
 

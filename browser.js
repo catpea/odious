@@ -7,7 +7,7 @@ await application.start();
 
 await application.library.load('/library/standard/Mock.js');
 await application.stack.add('Upperify');
-await application.stack.get('main').add('standard:basic:noop');
+await application.stack.get('main').add('standard:basic:noop', 'ccc');
 
 
 

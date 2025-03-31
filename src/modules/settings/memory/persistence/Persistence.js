@@ -41,12 +41,12 @@ export default class Persistence {
   }
 
   get(...a){
-    console.log('Persistence Get: ', ...a)
+    //console.log('Persistence Get: ', ...a)
     return this.adapter.get(...a);
   }
 
   set(...a){
-    console.log('Persistence Set: ', ...a)
+    //console.log('Persistence Set: ', ...a)
     return this.adapter.set(...a);
   }
 

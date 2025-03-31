@@ -13,6 +13,12 @@ export default class Elements {
     return list[Symbol.iterator]();
   }
 
+  signal(){
+    return this.settings.signal(this.categoryId, this.columnId);
+  }
+  subscribe(f){
+    return this.signal().subscribe(()=>f(this.entries()))
+  }
   size(){
     return this.keys().length;
   }
@@ -42,6 +48,8 @@ export default class Elements {
     const keys = this.keys();
     keys.splice(...a);
     const unique = [...new Set(keys)];
+    console.log('unique splice', a, unique, this.settings.get(this.categoryId, this.columnId))
+
     this.settings.set(this.categoryId, this.columnId, unique.join(' '));
   }
 
@@ -54,14 +62,17 @@ export default class Elements {
     this.settings.set(this.categoryId, this.columnId, unique.join(' '));
   }
 
-  add(object){
-    const id = object.id || object.constructor.id;
-    if(!id) throw new TypeError('Object must contain an id property.')
-    this.cache.set(id, object);
+  add(object, id=object.id){
+    // const id = object.id || object.constructor.id;
 
+    if(!id) throw new TypeError('Object must contain an id property.')
+
+    this.cache.set(id, object);
     const keys = this.keys().concat(id);
     const unique = [...new Set(keys)];
+    console.log('unique add', id, unique, this.settings.get(this.categoryId, this.columnId))
     this.settings.set(this.categoryId, this.columnId, unique.join(' '));
+
   }
 
   has(id){

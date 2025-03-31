@@ -6,7 +6,7 @@ import Stack from "./Stack.js";
 
 export default class Application {
   id = 'application';
-  prefix = 'v1'; // when incremented all data will be abandoned to previous version, and program will start blank
+  storagePrefix = 'v1'; // when incremented all data will be abandoned to previous version, and program will start blank
 
   defaults = {
     author: {
@@ -27,7 +27,7 @@ export default class Application {
 
   constructor() {
 
-    this.settings = new Settings(this.prefix, 'application.settings', this.defaults);
+    this.settings = new Settings(this.storagePrefix, 'application.settings', this.defaults);
 
     this.events = new Events(this); // system events suchh as adding/removing a node in a scene
     this.library = new Library(this); // where components are registered

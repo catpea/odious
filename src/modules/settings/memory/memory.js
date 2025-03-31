@@ -27,7 +27,7 @@ class Memory {
   add(pathKey){
       const synchronizable = new Synchronizable();
       this.data.set(pathKey, synchronizable);
-      this.data.get(pathKey).subscribe((content, oldValue, revision, revisionId)=>console.warn({[pathKey]: JSON.stringify({revision, revisionId, content})}))
+      // this.data.get(pathKey).subscribe((content, oldValue, revision, revisionId)=>console.warn({[pathKey]: JSON.stringify({revision, revisionId, content})}))
       const Χ = this.data.get(pathKey).subscribe((content, oldValue, revision, revisionId)=>{
 
         // WARNING: the storage may already contain the same value, if the database is web browser, and the update came in as storage change, the change will be real to this tab instance, but it will not have to save it, as it has already happened, this means it was just a notification from notehr tab.
@@ -53,9 +53,7 @@ class Memory {
   set(pathKey, value){
     if(! this.#started) throw new Error('Memory is not ready, await.')
     console.log('Memory Set', pathKey, value)
-
     if(!this.has(pathKey)) this.add(pathKey);
-
     this.data.get(pathKey).value = value;
   }
 

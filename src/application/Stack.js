@@ -5,7 +5,7 @@ export default class Stack {
 
   constructor(application) {
     this.application = application;
-    this.settings = new this.application.classes.Settings(this.application.storagePrefix, 'stack', this.defaultSettings);
+    this.settings = new this.application.classes.Settings(this.application.storagePrefix, 'stack', {});
     this.elements = new this.application.classes.Settings.Elements(this.settings, 'elements', 'value');
 
   }
@@ -48,14 +48,13 @@ export default class Stack {
 
 class Scene {
   id;
-  name;
   application;
 
-  constructor(id, name, application) {
+  constructor(id, name='Unnamed', application) {
     this.id = id;
-    this.name = name;
+
     this.application = application;
-    this.settings = new this.application.classes.Settings(this.application.storagePrefix, 'scene-'+id, this.defaultSettings);
+    this.settings = new this.application.classes.Settings(this.application.storagePrefix, 'scene-'+id, {main:{name}});
     this.elements = new this.application.classes.Settings.Elements(this.settings, 'elements', 'value');
   }
 
@@ -78,11 +77,12 @@ class Scene {
     await this.settings.stop();
   }
 
-  async add(classId){
-    const Class = this.application.library.get(classId);
+  async add(type, id){
+    const Class = this.application.library.get(type);
     if(!Class) throw new Error(`Component classId ${classId} not found.`)
-    const component = new Class(this);
-    component.id = classId + '-' + Math.random().toString(36).substring(2, 10);
+    id = id||type.replace(/\W/g, '-') + '-' + Math.random().toString(36).substring(2, 10);
+    const component = new Class(id, this.application, this);
+
     this.elements.add(component);
     await component.start()
   }

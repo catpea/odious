@@ -15,6 +15,7 @@
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>😈</text></svg>" />
         <script src="static/js/bootstrap.bundle.min.js"></script>
         <script type="module" src="browser.js"></script>
+        <script type="module" src="abstract.js"></script>
         <link href="static/css/bootstrap.min.css" rel="stylesheet">
 
         <style>
@@ -125,95 +126,14 @@
         </div>
 
         <div class="row mb-3">
-           <div class="col">
+           <div id="stack-overview" class="col">
                Scenes
                <ul id="application-scenes" class="list-unstyled">
                </ul>
            </div>
         </div>
-        <script type="module">
-          application.stack.settings.signal('elements', 'value').subscribe(v=>{
-            const ul = document.getElementById('application-scenes');
-
-            [... ul.getElementsByClassName("content-data")].forEach(o=>o.remove());
-            for( const [id, element] of application.stack.elements.entries() ){
-              const li = document.createElement("li");
-              li.classList.add( 'content-data')
-
-              li.textContent = id
-              ul.appendChild(li);
-            }
-          });
-        </script>
-        <div class="row mb-3">
-           <div class="col">
-               Scene Components
-               <ul id="application-components" class="list-unstyled">
-               </ul>
-           </div>
-        </div>
-        <script type="module">
-          application.stack.settings.signal('elements', 'value').subscribe(v=>{
-            const ul = document.getElementById('application-components');
-
-            [... ul.getElementsByClassName("content-data")].forEach(o=>o.remove());
-            for( const [id, scene] of application.stack.elements.entries() ){
-              const li = document.createElement("li");
-              const uul = document.createElement("ul");
-              li.classList.add( 'content-data')
-              uul.classList.add('list-unstyled', 'ms-2', 'content-data')
-              li.textContent = id
-              ul.appendChild(li);
-              ul.appendChild(uul);
-
-              {
-              scene.settings.signal('elements', 'value').subscribe(v=>{
-                [... uul.getElementsByClassName("content-data")].forEach(o=>o.remove());
-                for( const [id, xelement] of scene.elements.entries() ){
-                  const li = document.createElement("li");
-                  li.classList.add( 'content-data')
-                  li.textContent = id
-                  uul.appendChild(li);
-                }
-              });
-              }
-
-            }
-          });
-
-          setTimeout(()=>{  application.settings.set('author', 'name', 'zerocool'); }, 1_000)
-          setTimeout(()=>{ application.stack.get('main') .add('standard:basic:noop'); }, 2_000)
-          setTimeout(()=>{ application.stack.get('upperify') .add('standard:basic:noop'); }, 3_000)
-        </script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
 
     </body>
 </html>
