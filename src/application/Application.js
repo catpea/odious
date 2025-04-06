@@ -1,4 +1,5 @@
 import Settings from "../modules/settings/Settings.js";
+import Ephemerals from "../modules/settings/Ephemerals.js";
 
 import Events from "./Events.js";
 import Library from "./Library.js";
@@ -18,6 +19,7 @@ export default class Application {
 
   classes = {
     Settings,
+    Ephemerals,
   };
 
   settings;

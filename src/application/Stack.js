@@ -21,7 +21,7 @@ export default class Stack {
     if (this.#started) throw new Error('already started');
     await this.settings.start(); // await synchronization with storage/database
     await this.elements.start(); // await synchronization with storage/database
-    await this.add('Main');
+    // await this.add('Main');
     this.#started = true;
 
   }

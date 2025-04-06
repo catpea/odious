@@ -94,9 +94,13 @@
            </div>
         </div>
         <script type="module">
-          application.library.settings.signal('elements', 'value').subscribe(v=>{
+
+          application.library.elements.subscribe(v=>{
+
             const dl = document.getElementById('application-extensions');
             [...dl.getElementsByClassName("content-data")].forEach(o=>o.remove());
+            console.log('application.library.elements.entries()', application.library.elements.entries());
+
             for( const [id, element] of application.library.elements.entries() ){
               const dt = document.createElement("dt");
               dt.classList.add('col-sm-3', 'text-muted', 'content-data')
@@ -108,6 +112,7 @@
               dl.appendChild(dd);
             }
           });
+
         </script>
 
 

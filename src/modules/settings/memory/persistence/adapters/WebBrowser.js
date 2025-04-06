@@ -30,10 +30,12 @@ export default class WebBrowser {
   }
 
   async seed(prefix, memory){
-    // console.log('Object.entries(localStorage)', Object.entries(localStorage))
+    console.log('Object.entries(localStorage)', Object.entries(localStorage))
+
     for( const [key, value] of Object.entries(localStorage) ){
       if(key.startsWith(prefix)){
         const {revision, revisionId, content} = this.decode(value);
+        if(!memory.has(key)) console.log(`Memory does not have ${key} and it will be added.`, revision, revisionId, content)
         if(!memory.has(key)) memory.add(key);
         memory.get(key).remote(revision, revisionId, content);
       }
@@ -57,7 +59,7 @@ export default class WebBrowser {
       if(!memory.has(key)) memory.add(key);
       memory.get(key).remote(revision, revisionId, content);
     };
-    window.addEventListener('storage', listener);
+    //window.addEventListener('storage', listener);
     return ()=>window.removeEventListener('storage', listener);
   }
   async stop(){
@@ -73,6 +75,7 @@ export default class WebBrowser {
   encode(obj){
     return JSON.stringify(obj);
   }
+
   listenTo(thing, event, listener){
     if (!thing || !event || !listener) { throw new Error('All arguments (thing, event, listener) must be provided'); }
     const boundListener = listener.bind(this);

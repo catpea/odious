@@ -1,9 +1,11 @@
 export default class Elements {
 
   constructor(settings, categoryId, columnId){
+
     this.settings = settings;
     this.categoryId = categoryId;
     this.columnId = columnId;
+
     this.cache = new Map();
 
   }
@@ -35,7 +37,7 @@ export default class Elements {
 
   entries(){
     const keys = this.keys();
-    const entries = keys.map(id=>[id, this.cache.get(id)])
+    const entries = keys.map(id=>[id, this.cache.get(id)]);
     return entries;
   }
 
@@ -91,10 +93,14 @@ export default class Elements {
   }
 
   async start(){
-
+    console.log('STARTING ELEMENTS', this.settings.constructor.name, this.categoryId, this.columnId);
     if (this.#started) throw new Error('already started');
     await this.settings.start(); // await synchronization with storage/database
-    this.settings.set(this.categoryId, this.columnId, '');
+
+    // if(!this.settings.has(this.categoryId, this.columnId)) console.log(`${this.settings.constructor.name} does not have ${this.categoryId}:${this.columnId}`);
+
+    if(!this.settings.has(this.categoryId, this.columnId)) this.settings.set(this.categoryId, this.columnId, '');
+
     this.#started = true;
   }
 

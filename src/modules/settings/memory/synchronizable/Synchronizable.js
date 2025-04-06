@@ -112,6 +112,7 @@ export default class Synchronizable {
    * @param {*} newUnserializedRemoteValue - The new value from the remote source
    */
   remote(remoteRevision, remoteRevisionId, newUnserializedRemoteValue) {
+    // console.log({remoteRevision, remoteRevisionId, newUnserializedRemoteValue})
     // Validate input parameters
     if (!Number.isInteger(remoteRevision) || isNaN(remoteRevision)) {
       throw new Error("Remote revision must be an integer");
@@ -132,6 +133,10 @@ export default class Synchronizable {
 
     // console.log({isUpdate, isDuplicate, isConflict});
 
+      // if(isUpdate) console.log({isUpdate})
+      // if(isConflict) console.log({isConflict})
+      // if(isDuplicate) console.log({isDuplicate})
+
     if (isUpdate) {
       // Simple case: remote revision is newer
       const oldSerializedValue = this.#serializedValue;
@@ -143,6 +148,7 @@ export default class Synchronizable {
 
       // console.log({isChanged}, oldSerializedValue, newSerializedValue, oldSerializedValue !== newSerializedValue)
       if (isChanged) {
+        // console.log({isChanged, oldSerializedValue, newSerializedValue})
         // Only notify if actual value has changed
         this.#unserializedValue = newUnserializedRemoteValue;
         this.#serializedValue = newSerializedValue;
@@ -150,12 +156,15 @@ export default class Synchronizable {
         this.#notify(newUnserializedRemoteValue, oldUnserializedValue);
       }
     } else if (isConflict) {
+
       // Conflict case: same revision, different UUIDs
       // Winner determined by comparing UUIDs alphanumerically
       const isWinner = remoteRevisionId > this.#revisionUuid;
       // console.log({isWinner}, remoteRevisionId, this.#revisionUuid)
 
+        // console.log({isWinner})
       if (isWinner) {
+
         // Take on remote revision and revision id
         this.#revision = remoteRevision;
         this.#revisionUuid = remoteRevisionId;
@@ -168,6 +177,8 @@ export default class Synchronizable {
         // console.log({isChanged}, oldSerializedValue, newSerializedValue, newUnserializedRemoteValue)
         this.#unserializedValue = newUnserializedRemoteValue;
         this.#serializedValue = newSerializedValue;
+
+        // console.log({isChanged, oldSerializedValue, newSerializedValue})
 
         if (isChanged) {
           const oldUnserializedValue = this.#unserializedValue;

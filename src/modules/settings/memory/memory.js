@@ -25,6 +25,7 @@ class Memory {
 
   // NOTE: add adds blank signal, does not support setting value
   add(pathKey){
+    // if(pathKey.includes('elements')) throw new Error('Nope')
       const synchronizable = new Synchronizable();
       this.data.set(pathKey, synchronizable);
       // this.data.get(pathKey).subscribe((content, oldValue, revision, revisionId)=>console.warn({[pathKey]: JSON.stringify({revision, revisionId, content})}))
@@ -50,10 +51,10 @@ class Memory {
     return this.data.get(pathKey);
   }
 
-  set(pathKey, value){
+  set(pathKey, value, options){
     if(! this.#started) throw new Error('Memory is not ready, await.')
     console.log('Memory Set', pathKey, value)
-    if(!this.has(pathKey)) this.add(pathKey);
+    if(!this.has(pathKey)) this.add(pathKey, options);
     this.data.get(pathKey).value = value;
   }
 

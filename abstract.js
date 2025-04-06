@@ -81,10 +81,3 @@ function connectContainerElementToSignalElements(parentElement, signal) {
 }
 
 const unsubscribe = connectContainerElementToSignalElements(document.getElementById("stack-overview"), application.stack.elements);
-
-setTimeout(()=>{  application.settings.set('author', 'name', 'zerocool'); }, 1_000)
-
-setTimeout(()=>{ application.stack.get('main') .add('standard:basic:noop', 'aaa'); }, 2_000)
-setTimeout(()=>{ application.stack.get('upperify') .add('standard:basic:noop', 'bbb'); }, 3_000)
-
-setTimeout(()=>{ application.stack.get('main') .remove('aaa'); }, 4_000)
