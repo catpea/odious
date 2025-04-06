@@ -4,7 +4,7 @@ class Noop {
     main:{
       name:'Noop',
       description: 'Non operational example component',
-      type: 'standard:basic:noop',
+      type: 'standard:mock:noop',
     },
   };
   static ports = {};

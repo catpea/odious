@@ -59,7 +59,7 @@ export default class WebBrowser {
       if(!memory.has(key)) memory.add(key);
       memory.get(key).remote(revision, revisionId, content);
     };
-    //window.addEventListener('storage', listener);
+    window.addEventListener('storage', listener);
     return ()=>window.removeEventListener('storage', listener);
   }
   async stop(){
